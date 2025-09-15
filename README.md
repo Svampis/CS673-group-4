@@ -8,7 +8,13 @@ In accordance with this, we have devised the following product vision
 
 FOR Tradesmen, homeowners, general contractors
 WHO Are looking for residential work (for tradesmen) or have a plumbing/electrical/HVAC issue that needs to be repaired (for homeowners), or are recruiting for new construction or similar long-term projects (general contractors)
-THE Tradelion is an on-demand service scheduling platform
+THE RoofConnect is an on-demand service scheduling platform
 THAT connects tradesmen to homeowners and general contractors
 UNLIKE Angie's list
 OUR PRODUCT has functionality to list available time slots and for tradesmen to accept/reject jobs and has bidding functionality for contracts
+
+Group roster
+- Ilan Efraimovich: Product Manager
+- Spencer Clarke: Microservices dev
+- Luis Martinez: Data Architect
+- Jaysheel Dodia: UI/UX designer
