@@ -2,7 +2,7 @@
 This is the repo for the CS673 group project
 
 
-We are going to create an app that will allow homeowners to schedule residential services with local tradesmen, such as plumbing, HVAC, electrical, etc. This app will consist of homeowner accounts and tradesmen accounts. From the tradesman's account, you will be able to list your credentials and experience and list locations and time slots of availability. From the homeowner's account, you will be able to browse for tradesmen by profession and location and create appointments in the available time slots, which will be subsequently accepted or rejected by the tradesman. Once the tradesman has accepted, there will be messaging functionality allowing the homeowner and the tradesman to message each other. There will also be functionality for the tradesman to post a cost estimate based on footage of the damage, answers to initial survey questions posed to the users, both which will be made available to the tradesman, as well as what is discussed using the messaging feature. There will also be basic service-oriented functionality like ratings, reviews, etc. In addition to this, there will also be functionality to set up longer-term contracts, such as for new construction. In these instances, the contract will be based on a bid whose parameters are established by the owner/general contractor, such that the lowest bidding tradesman gets the contract.
+We are going to create an app that will allow homeowners to schedule residential services with local tradesmen, such as plumbing, HVAC, electrical, etc. This app will consist of homeowner accounts and tradesmen accounts. From the tradesman's account, you will be able to list your credentials and experience and list locations and time slots of availability. From the homeowner's account, you will be able to browse for tradesmen by profession and location and create appointments in the available time slots, which will be subsequently accepted or rejected by the tradesman. Once the tradesman has accepted, there will be messaging functionality allowing the homeowner and the tradesman to message each other. There will also be functionality for the tradesman to post a cost estimate based on footage of the damage, answers to initial survey questions posed to the users, both which will be made available to the tradesman, as well as what is discussed using the messaging feature. There will also be basic service-oriented functionality like ratings, reviews, etc. In addition to this, there will also be functionality to set up longer-term contracts, such as for new construction. In these instances, the contract will be based on a bid whose parameters are established by the owner/general contractor, such that the lowest bidding tradesman gets the contract There will also be admin accounts that can kick/ban other accounts.
 
 In accordance with this, we have devised the following product vision
 
@@ -13,8 +13,12 @@ THAT connects tradesmen to homeowners and general contractors
 UNLIKE Angie's list
 OUR PRODUCT has functionality to list available time slots and for tradesmen to accept/reject jobs and has bidding functionality for contracts
 
+Our near vision for the product is to establish user accounts for tradesmen, homeowners/contractors, and admins, set up user profiles for tradesmen, and implement searching functionality for homeowners to search for nearby tradesmen.
+
 Group roster
 - Ilan Efraimovich: Product Manager
 - Spencer Clarke: Microservices dev
 - Luis Martinez: Data Architect
 - Jaysheel Dodia: UI/UX designer
+
+Asana board: https://app.asana.com/1/941258742802980/project/1211560478150021/list/1211560497173215
