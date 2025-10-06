@@ -1,0 +1,224 @@
+# Use Cases
+
+### Name:
+Register and schedule an appointment
+
+### Actors: 
+Resident, Plumber
+
+### Basic Course of Action:
+* Resident visits the login page for the app
+* Resident selects "Create new account" and is redirected to the account creation page
+* Resident enters their name, their home address, their email, and chooses a password
+* Resident hits submit and a new account is created
+* Resident is redirected to the landing page
+* Resident is shown a panel of the profiles of several workers within a reasonable distance of Resident's home address in their area listing their addresses, ratings, and trade
+* Resident selects "sort by rating"
+* Resident selects the highest rated worker, henceforth known as Plumber
+* Resident clicks a message icon on Plumber's profile
+* Resident messages Plumber showing an image of their issue, a rusted pipe, asking for advice on next steps
+* Plumber receives a notification that they have a new message
+* Plumber clicks on the message and sees that it is from Resident.
+* Plumber says that it will take 3 days to get the parts and approximately 2 hours of work, and instructs Resident to select a 2 hour time slot after 3 days from present
+* Resident clicks on the schedule icon on Plumber's profile, and is redirected to a scheduling page showing Plumber's open time slots
+* Resident selects a time slot between 12:00 pm and 2:00 pm 5 days from present
+* Plumber sees a scheduling request and accepts it
+
+### Name:
+Create a new construction project and accept bids
+
+### Actors: 
+Contractor, Worker 1, Worker 2, ... Worker [n]
+
+### Basic Course of Action:
+* Contractor visits the login page
+* Contractor enters their email and password
+* Contractor is redirected to the landing page
+* Contractor selects "Create new bidding project" (or similar better ### Name)
+* Contractor selects "Add new job"
+* Contractor selects "Description"
+* Contractor types description of job, including hours, overall timespan, requirements, etc
+* Contractor selects "Starting Bid"
+* Contractor sets the starting bid at $50/hr
+* Contractor sets bidding increments at $2/hr
+* Contractor selects "Save"
+* Contractor selects "Publish"/"Make public"
+* set i = 0
+* LOOP_START
+* i = i + 1
+* Worker i visits the login page
+* Worker i enters their email and password
+* Worker i selects "Search for contracts"
+* Worker i sees a panel of open contracts
+* Worker i selects the contract published by Contractor
+* Worker i enters their desired hourly rate that undercuts the current bid
+* Contractor receives a notification that a new bid has been made
+* Contractor views the profile of Worker i
+* Contractor accepts the bid
+* if i < n, goto LOOP_START
+
+
+### Name:
+Site administrator suspends a randomly searched account
+
+### Actors: Site Administrator, Scammer
+
+### Basic Course of Action:
+* Site administrator visits the login page
+* Site administrator enters their email and password
+* Site administrator enters 2FA details
+* Site administrator is redirected to the landing page
+* Site administrator sees a panel of profiles of several workers
+* Site administrator selects "Sort by suspiciousness"
+* Site administrator sees a panel of profiles sorted by a criteria involving how many reviews the worker has and how bad their overall rating is
+* Site administrator clicks on the top result
+* Site administrator reads reviews, most indicating that the worker no call no shows scheduled jobs
+* Site administrator clicks "Suspend account" icon
+* Site administrator enters a reason "Repeatedly no call no showed scheduled jobs"
+* Site administrator clicks "Suspend"
+* Scammer visits the login page
+* Scammer enters their email and password
+* Scammer fails to login and is given a notice that their account has been suspended along with the reason
+
+
+### Name:
+Site administrator suspends a reported account
+
+### Actors: Site Administrator, Reporter, Scammer
+
+### Basic Course of Action:
+* Site administrator receives an email from Reporter with the username of Scammer, who received payment, no*call no*showed, and refused to refund it
+* Site administrator follows up the email asking for documentation
+* The homeowner sends evidence of the transaction via credit card statements or similar
+* Site administrator visits the login page
+* Site administrator enters their email and password
+* Site administrator enters 2FA details
+* Site administrator is redirected to the landing page
+* Site administrator uses the search bar to search for Scammer
+* Site administrator clicks "Suspend account" icon
+* Site administrator enters a reason "No call no showed scheduled job and stole payment"
+* Site administrator clicks "Suspend"
+* Scammer visits the login page
+* Scammer enters their email and password
+* Scammer fails to login and is given a notice that their account has been suspended along with the reason
+
+
+### Name:
+Site administrator approves new tradesman registration
+
+### Actors: Site Administrator, Tradesman
+
+### Basic Course of Action:
+* Tradesman visits the registration page
+* Tradesman enters their personal and business details, including license number, business ### Name, and contact information
+* Tradesman uploads proof of certification and identification documents
+* Tradesman submits the registration form for review
+* Site administrator visits the login page
+* Site administrator enters their email and password
+* Site administrator enters 2FA details
+* Site administrator is redirected to the landing page
+* Site administrator navigates to the “Pending Registrations” panel
+* Site administrator views a list of new tradesman applications sorted by submission date
+* Site administrator clicks on a pending registration to review the details
+* Site administrator inspects uploaded documents and cross*verifies license validity
+* Site administrator checks for duplicate or suspicious information in the system
+* Site administrator determines that the registration appears legitimate
+* Site administrator clicks the “Approve” button
+* The system automatically sends a confirmation email to the tradesman stating that their account has been approved and is now active
+* Tradesman logs in successfully and gains full access to the platform
+
+### Name:
+User deletes account
+
+### Actors: User
+
+### Basic Course of Action
+* User visits the login page
+* User enters their email and password
+* User selects "Delete account"
+* User is given a "Are you sure you want to delete your account?" message
+* User selects "Yes"
+* User is redirected to the login page
+
+
+### Name:
+Tradesman updates availability schedule
+
+### Actors: Tradesman
+
+### Basic Course of Action:
+* Tradesman visits the login page
+* Tradesman enters their email and password
+* Tradesman is redirected to their dashboard
+* Tradesman selects “Manage Schedule”
+* Tradesman views a calendar showing their current availability
+* Tradesman clicks on an open time slot
+* Tradesman selects “Mark as Unavailable” and adds a note (e.g., “On vacation”)
+* Tradesman clicks “Save Changes”
+* The calendar updates to show the blocked*out slot as unavailable
+* Homeowners searching for appointments during that time no longer see that slot available
+
+
+### Name:
+Homeowner leaves a review after completed service
+
+### Actors: Homeowner, Tradesman
+
+### Basic Course of Action:
+* Homeowner logs in and visits their profile dashboard
+* Homeowner selects “Past Appointments”
+* Homeowner selects the completed appointment with the Tradesman
+* Homeowner clicks “Leave Review”
+* Homeowner enters a star rating and a short written review about the service
+* Homeowner clicks “Submit Review”
+* Tradesman receives a notification that a new review has been posted
+* The review appears on the Tradesman’s public profile, contributing to their overall rating
+
+
+### Name:
+Admin verifies a new tradesman account
+
+### Actors: Site Administrator, Tradesman
+
+### Basic Course of Action:
+* Tradesman creates a new account and selects “Register as Tradesman”
+* Tradesman uploads license documents, certifications, and identification
+* Admin receives a notification of a pending verification
+* Admin visits the “Pending Verifications” section on the dashboard
+* Admin reviews the uploaded documentation and credentials
+* Admin clicks “Approve” to activate the account or “Reject” to deny with a reason
+* Tradesman receives an email notification of approval or rejection
+* If approved, Tradesman’s profile becomes visible to homeowners in search results
+
+
+### Name:
+Homeowner cancels a scheduled appointment
+
+### Actors: Homeowner, Tradesman
+
+### Basic Course of Action:
+* Homeowner logs into their account
+* Homeowner navigates to “My Appointments”
+* Homeowner selects the appointment they wish to cancel
+* Homeowner clicks “Cancel Appointment”
+* A confirmation dialog appears asking “Are you sure?”
+* Homeowner confirms cancellation
+* Tradesman receives a notification that the appointment has been canceled
+* The canceled time slot is automatically reopened on the Tradesman’s calendar
+
+
+
+### Name:
+Tradesman sends an updated cost estimate
+
+### Actors: Tradesman, Homeowner
+
+### Basic Course of Action:
+* Tradesman logs into their account
+* Tradesman opens a message thread with Homeowner for an ongoing job
+* After reviewing new photos or details provided by Homeowner, Tradesman selects “Update Estimate”
+* Tradesman edits the estimated cost and adds a justification note
+* Tradesman clicks “Send Updated Estimate”
+* Homeowner receives a notification and views the revised estimate
+* Homeowner can either accept or reject the updated estimate
+* If accepted, the updated estimate is stored in the job record for future reference
