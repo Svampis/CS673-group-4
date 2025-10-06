@@ -117,6 +117,34 @@ Basic Course of Action:
 =========================================================
 
 Name:
+Site administrator approves new tradesman registration
+
+Actors: Site Administrator, Tradesman
+
+Basic Course of Action:
+ - Tradesman visits the registration page
+ - Tradesman enters their personal and business details, including license number, business name, and contact information
+ - Tradesman uploads proof of certification and identification documents
+ - Tradesman submits the registration form for review
+ - Site administrator visits the login page
+ - Site administrator enters their email and password
+ - Site administrator enters 2FA details
+ - Site administrator is redirected to the landing page
+ - Site administrator navigates to the “Pending Registrations” panel
+ - Site administrator views a list of new tradesman applications sorted by submission date
+ - Site administrator clicks on a pending registration to review the details
+ - Site administrator inspects uploaded documents and cross-verifies license validity
+ - Site administrator checks for duplicate or suspicious information in the system
+ - Site administrator determines that the registration appears legitimate
+ - Site administrator clicks the “Approve” button
+ - The system automatically sends a confirmation email to the tradesman stating that their account has been approved and is now active
+ - Tradesman logs in successfully and gains full access to the platform
+
+=========================================================
+*********************************************************
+=========================================================
+
+Name:
 User deletes account
 
 Actors: User
@@ -129,6 +157,9 @@ Basic Course of Action
 - User selects "Yes"
 - User is redirected to the login page
 
+=========================================================
+*********************************************************
+=========================================================
 
 Name:
 Tradesman updates availability schedule
@@ -147,6 +178,10 @@ Basic Course of Action:
 - The calendar updates to show the blocked-out slot as unavailable
 - Homeowners searching for appointments during that time no longer see that slot available
 
+=========================================================
+*********************************************************
+=========================================================
+
 Name:
 Homeowner leaves a review after completed service
 
@@ -161,6 +196,10 @@ Basic Course of Action:
 - Homeowner clicks “Submit Review”
 - Tradesman receives a notification that a new review has been posted
 - The review appears on the Tradesman’s public profile, contributing to their overall rating
+
+=========================================================
+*********************************************************
+=========================================================
 
 Name:
 Admin verifies a new tradesman account
@@ -177,6 +216,10 @@ Basic Course of Action:
 - Tradesman receives an email notification of approval or rejection
 - If approved, Tradesman’s profile becomes visible to homeowners in search results
 
+=========================================================
+*********************************************************
+=========================================================
+
 Name:
 Homeowner cancels a scheduled appointment
 
@@ -192,6 +235,10 @@ Basic Course of Action:
 - Tradesman receives a notification that the appointment has been canceled
 - The canceled time slot is automatically reopened on the Tradesman’s calendar
 
+=========================================================
+*********************************************************
+=========================================================
+
 Name:
 Tradesman sends an updated cost estimate
 
@@ -206,9 +253,3 @@ Basic Course of Action:
 - Homeowner receives a notification and views the revised estimate
 - Homeowner can either accept or reject the updated estimate
 - If accepted, the updated estimate is stored in the job record for future reference
-
-
-
-
-
-
