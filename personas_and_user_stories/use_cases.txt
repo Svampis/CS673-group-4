@@ -22,6 +22,10 @@ Basic Course of Action:
 - Resident selects a time slot between 12:00 pm and 2:00 pm 5 days from present
 - Plumber sees a scheduling request and accepts it
 
+=========================================================
+*********************************************************
+=========================================================
+
 Name:
 Create a new construction project and accept bids
 
@@ -55,6 +59,11 @@ Basic Course of Action:
 - Contractor accepts the bid
 - if i < n, goto LOOP_START
 
+
+=========================================================
+*********************************************************
+=========================================================
+
 Name:
 Site administrator suspends a randomly searched account
 
@@ -78,6 +87,10 @@ Basic Course of Action:
 - Scammer fails to login and is given a notice that their account has been suspended along with the reason
 
 
+=========================================================
+*********************************************************
+=========================================================
+
 Name:
 Site administrator suspends a reported account
 
@@ -99,6 +112,9 @@ Basic Course of Action:
 - Scammer enters their email and password
 - Scammer fails to login and is given a notice that their account has been suspended along with the reason
 
+=========================================================
+*********************************************************
+=========================================================
 
 Name:
 User deletes account
