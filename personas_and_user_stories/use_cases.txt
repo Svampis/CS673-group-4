@@ -128,3 +128,87 @@ Basic Course of Action
 - User is given a "Are you sure you want to delete your account?" message
 - User selects "Yes"
 - User is redirected to the login page
+
+
+Name:
+Tradesman updates availability schedule
+
+Actors: Tradesman
+
+Basic Course of Action:
+- Tradesman visits the login page
+- Tradesman enters their email and password
+- Tradesman is redirected to their dashboard
+- Tradesman selects “Manage Schedule”
+- Tradesman views a calendar showing their current availability
+- Tradesman clicks on an open time slot
+- Tradesman selects “Mark as Unavailable” and adds a note (e.g., “On vacation”)
+- Tradesman clicks “Save Changes”
+- The calendar updates to show the blocked-out slot as unavailable
+- Homeowners searching for appointments during that time no longer see that slot available
+
+Name:
+Homeowner leaves a review after completed service
+
+Actors: Homeowner, Tradesman
+
+Basic Course of Action:
+- Homeowner logs in and visits their profile dashboard
+- Homeowner selects “Past Appointments”
+- Homeowner selects the completed appointment with the Tradesman
+- Homeowner clicks “Leave Review”
+- Homeowner enters a star rating and a short written review about the service
+- Homeowner clicks “Submit Review”
+- Tradesman receives a notification that a new review has been posted
+- The review appears on the Tradesman’s public profile, contributing to their overall rating
+
+Name:
+Admin verifies a new tradesman account
+
+Actors: Site Administrator, Tradesman
+
+Basic Course of Action:
+- Tradesman creates a new account and selects “Register as Tradesman”
+- Tradesman uploads license documents, certifications, and identification
+- Admin receives a notification of a pending verification
+- Admin visits the “Pending Verifications” section on the dashboard
+- Admin reviews the uploaded documentation and credentials
+- Admin clicks “Approve” to activate the account or “Reject” to deny with a reason
+- Tradesman receives an email notification of approval or rejection
+- If approved, Tradesman’s profile becomes visible to homeowners in search results
+
+Name:
+Homeowner cancels a scheduled appointment
+
+Actors: Homeowner, Tradesman
+
+Basic Course of Action:
+- Homeowner logs into their account
+- Homeowner navigates to “My Appointments”
+- Homeowner selects the appointment they wish to cancel
+- Homeowner clicks “Cancel Appointment”
+- A confirmation dialog appears asking “Are you sure?”
+- Homeowner confirms cancellation
+- Tradesman receives a notification that the appointment has been canceled
+- The canceled time slot is automatically reopened on the Tradesman’s calendar
+
+Name:
+Tradesman sends an updated cost estimate
+
+Actors: Tradesman, Homeowner
+
+Basic Course of Action:
+- Tradesman logs into their account
+- Tradesman opens a message thread with Homeowner for an ongoing job
+- After reviewing new photos or details provided by Homeowner, Tradesman selects “Update Estimate”
+- Tradesman edits the estimated cost and adds a justification note
+- Tradesman clicks “Send Updated Estimate”
+- Homeowner receives a notification and views the revised estimate
+- Homeowner can either accept or reject the updated estimate
+- If accepted, the updated estimate is stored in the job record for future reference
+
+
+
+
+
+
