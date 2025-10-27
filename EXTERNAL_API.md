@@ -38,17 +38,7 @@
 
 ---
 
-## 5. Payments & Cost Estimate APIs
-
-| **External API** | **Description** | **Used By** | **Required For User Stories** |
-|------------------|-----------------|--------------|--------------------------------|
-| `POST /payments/estimate` | Calculates or updates job cost estimates based on tradesman input. | External payment/estimation microservice | - “As a tradesman, I want to update the cost estimate based on chatting…” <br> - “As a homeowner, I want to receive an updated cost estimate within 10 minutes…” |
-| `POST /payments/process` | Processes deposits or final payments securely using a payment gateway (Stripe/PayPal). | External payment provider | Future sprint or integration with job acceptance |
-| `GET /payments/status/{transaction_id}` | Retrieves payment transaction or refund status. | Payment gateway API | Appointment confirmations, cancellations, or refunds |
-
----
-
-## 6. Scheduling & Calendar Integration APIs
+## 5. Scheduling & Calendar Integration APIs
 
 | **External API** | **Description** | **Used By** | **Required For User Stories** |
 |------------------|-----------------|--------------|--------------------------------|
@@ -57,22 +47,11 @@
 
 ---
 
-## 7. Reviews & Rating APIs
+## 6. Reviews & Rating APIs
 
 | **External API** | **Description** | **Used By** | **Required For User Stories** |
 |------------------|-----------------|--------------|--------------------------------|
 | `POST /reviews/sentiment` | (Optional) Runs sentiment analysis on review text for moderation or fraud detection. | External AI moderation API | - “As a homeowner, I want to leave a star rating and written review…” <br> - “As the site administrator, I need to manage bad actors…” |
-
----
-
-## 8. Bidding & Project Management APIs
-
-| **External API** | **Description** | **Used By** | **Required For User Stories** |
-|------------------|-----------------|--------------|--------------------------------|
-| `POST /projects` | Creates new contractor job listings and publishes them on the platform. | External contractor management microservice | - “As a contractor, I want to create a new job listing within 10 minutes…” |
-| `GET /projects/{id}/bids` | Retrieves all bids for a project. | External bidding system | - “As a contractor, I want to see all open bids and worker ratings…” |
-| `POST /bids` | Tradesmen submit bids for contractor projects. | External bidding system | - “As a tradesman, I want to search for job contracts published by contractors…” |
-| `POST /notifications/bid` | Notifies contractor when a new bid is placed. | External notification system | - “As a contractor, I want to receive notifications within 1 minute of new bids…” |
 
 ---
 
@@ -84,9 +63,7 @@
 | Media Storage | AWS S3 / Cloudinary | Photo & document uploads |
 | Notifications | Firebase / OneSignal / Twilio | Real-time alerts & updates |
 | Geolocation | Google Maps / Mapbox | Distance, area radius, and filtering |
-| Payments | Stripe / PayPal | Estimate updates and secure payments |
 | Calendar | Google Calendar / Outlook | Sync availability and appointments |
 | Reviews Moderation | OpenAI / Google AI | Prevent fraudulent or toxic reviews |
-| Contractor Bidding | External project microservice | Enable job listing and bid management |
 
 ---
