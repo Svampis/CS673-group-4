@@ -97,9 +97,10 @@ Response:
 
 ```
 
-## Search Tradesman
+## Tradesman Availability & Scheduling
 
-### Tradesman Availability & Scheduling
+### Search Tradesman
+
 
 ### GET /tradesmen?trade=plumber&location=ZIP
 
