@@ -1,0 +1,69 @@
+# Ruby / Rails
+*.gem
+*.rbc
+.bundle/
+vendor/bundle/
+log/*
+tmp/
+tmp/**/*
+!/tmp/.keep
+
+# Rails temp/pids/sockets
+/tmp/pids
+/tmp/sockets
+/public/system
+/public/uploads
+
+# Active Storage local files
+/storage/*
+!/storage/.keep
+
+# Credentials / keys / env
+/config/master.key
+.env
+.env.*
+.secrets
+credentials.yml.enc.secret
+
+# Node / Yarn
+node_modules/
+yarn-error.log
+package-lock.json
+pnpm-lock.yaml
+
+# Build / packaging
+.byebug_history
+coverage/
+spec/reports/
+coverage/.cache
+public/packs
+public/packs-test
+public/assets
+tmp/cache/assets
+
+# System / editors / IDEs
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~ 
+Thumbs.db
+
+# Docker / containers
+docker-compose.override.yml
+.env.docker
+
+# Logs / debugging
+*.log
+
+# Test artifacts
+tmp/test*
+rerun.txt
+
+# OS generated files
+*.pid
+*.seed
+
+# Optional: ignore Ruby version manager files if you don't want them in repo
+.ruby-version
+.ruby-gemset
