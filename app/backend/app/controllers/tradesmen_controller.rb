@@ -2,9 +2,10 @@ class TradesmenController < ApiController
   def index
     trade = params[:trade]
     location = params[:location]
+    name = params[:name]
     
-    tradesmen = if trade.present? || location.present?
-      Tradesman.find_by_trade_and_location(trade, location)
+    tradesmen = if trade.present? || location.present? || name.present?
+      Tradesman.find_by_trade_and_location(trade, location, name)
     else
       Tradesman.all
     end

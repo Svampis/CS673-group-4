@@ -28,12 +28,13 @@ class Tradesman
     all.find { |t| t.user_id == id }
   end
   
-  def self.find_by_trade_and_location(trade, location)
+  def self.find_by_trade_and_location(trade, location, name = nil)
     all.select do |t|
-      matches_trade = trade.nil? || t.trade&.downcase == trade.downcase
-      matches_location = location.nil? || t.location&.downcase == location.downcase || 
+      matches_trade = trade.nil? || trade.empty? || t.trade&.downcase&.include?(trade.downcase)
+      matches_location = location.nil? || location.empty? || t.location&.downcase == location.downcase || 
                          t.address&.downcase&.include?(location.downcase)
-      matches_trade && matches_location
+      matches_name = name.nil? || name.empty? || t.name&.downcase&.include?(name.downcase)
+      matches_trade && matches_location && matches_name
     end
   end
   

@@ -16,14 +16,17 @@ tmp/**/*
 
 # Active Storage local files
 /storage/*
-!/storage/.keep
+!/storage/.keepf
 
 # Credentials / keys / env
 /config/master.key
 .env
 .env.*
 .secrets
-credentials.yml.enc.secret
+config/credentials.yml.enc
+config/credentials.yml.enc.secret
+config/credentials/*.yml.enc
+config/credentials/*.yml.enc.secret
 
 # Node / Yarn
 node_modules/
@@ -67,3 +70,6 @@ rerun.txt
 # Optional: ignore Ruby version manager files if you don't want them in repo
 .ruby-version
 .ruby-gemset
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key

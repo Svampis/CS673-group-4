@@ -24,11 +24,6 @@ Things you may want to cover:
 * ...
 
 
-Here’s the clean, no-nonsense answer.
-Assume **you pushed your Rails project (minus secrets)** and teammates want to run it inside **their own WSL2 Ubuntu** environment.
-
-Below is exactly what they need to do — nothing more.
-
 ---
 
 # ✅ **Steps Teammates Follow to Recreate & Run the Project in WSL2**

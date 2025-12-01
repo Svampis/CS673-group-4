@@ -334,6 +334,11 @@
   <div class="main-container">
     <div class="filters">
       <div class="filter-section">
+        <h3>Name</h3>
+        <input type="text" class="filter-input" id="name-filter" placeholder="Search by name">
+      </div>
+      
+      <div class="filter-section">
         <h3>Category</h3>
         <input type="text" class="filter-input" id="category-filter" value="Plumber" placeholder="Category">
       </div>
@@ -543,8 +548,16 @@
     // Load tradesmen
     async function loadTradesmen() {
       try {
-        const category = document.getElementById('category-filter').value || 'Plumber';
-        const response = await fetch(`/tradesmen?trade=${encodeURIComponent(category)}`);
+        const category = document.getElementById('category-filter').value || '';
+        const name = document.getElementById('name-filter').value || '';
+        
+        const params = [];
+        if (category) params.push(`trade=${encodeURIComponent(category)}`);
+        if (name) params.push(`name=${encodeURIComponent(name)}`);
+        
+        const url = params.length > 0 ? `/tradesmen?${params.join('&')}` : '/tradesmen';
+        
+        const response = await fetch(url);
         let tradesmen = await response.json();
         
         // Sort tradesmen
@@ -625,7 +638,8 @@
     }
     
     // Filter handlers
-    document.getElementById('category-filter').addEventListener('change', loadTradesmen);
+    document.getElementById('name-filter').addEventListener('input', loadTradesmen);
+    document.getElementById('category-filter').addEventListener('input', loadTradesmen);
     document.getElementById('distance-filter').addEventListener('change', loadTradesmen);
     document.getElementById('sort-filter').addEventListener('change', function() {
       // Sort functionality would go here
