@@ -21,8 +21,12 @@ Rails.application.routes.draw do
   put "appointments/:id/cancel" => "appointments#cancel", as: :cancel_appointment
   
   # Messaging
+  get "messages-page" => "messages#index_page", as: :messages_page
+  get "messages" => "messages#index", as: :messages_list
   get "messages/:conversation_id" => "messages#show", as: :messages
   post "messages" => "messages#create"
+  put "messages/:id/read" => "messages#mark_read", as: :mark_message_read
+  get "messages/unread-counts" => "messages#unread_counts", as: :unread_counts
   
   # Reviews
   post "reviews" => "reviews#create"
@@ -43,9 +47,6 @@ Rails.application.routes.draw do
   # API Routes for projects
   get "api/projects/user/:user_id" => "projects#user_projects", as: :api_user_projects
   get "api/projects/:id" => "projects#project_details", as: :api_project_details
-  
-  # Test page
-  get "test-url" => "test#index"
   
   # Defines the root path route ("/")
   root "home#index"
