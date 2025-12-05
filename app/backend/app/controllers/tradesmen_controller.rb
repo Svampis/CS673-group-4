@@ -8,8 +8,8 @@ class TradesmenController < ApiController
     # Filter by location (city)
     tradesmen = tradesmen.by_location(params[:location]) if params[:location].present?
     
-    # Filter by verified status (only show verified tradesmen by default)
-    if params[:verified_only] != 'false'
+    # Filter by verified status (show all tradesmen by default, allow filtering)
+    if params[:verified_only] == 'true'
       tradesmen = tradesmen.verified
     end
     

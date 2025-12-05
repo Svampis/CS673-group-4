@@ -562,7 +562,9 @@
         if (category) params.push(`trade=${encodeURIComponent(category)}`);
         if (name) params.push(`name=${encodeURIComponent(name)}`);
         
-        const url = params.length > 0 ? `/tradesmen?${params.join('&')}` : '/tradesmen';
+        // Always include verified_only=false to show all tradesmen
+        params.push('verified_only=false');
+        const url = `/tradesmen?${params.join('&')}`;
         
         const response = await fetch(url);
         let tradesmen = await response.json();
