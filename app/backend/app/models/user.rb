@@ -13,6 +13,22 @@ class User < ApplicationRecord
   has_one :admin, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
+  # Instance methods
+  def name
+    case role
+    when 'homeowner'
+      homeowner ? "#{homeowner.fname} #{homeowner.lname}".strip : email
+    when 'contractor'
+      contractor ? "#{contractor.fname} #{contractor.lname}".strip : email
+    when 'tradesman'
+      tradesman ? "#{tradesman.fname} #{tradesman.lname}".strip : email
+    when 'admin'
+      admin ? "#{admin.fname} #{admin.lname}".strip : email
+    else
+      email
+    end
+  end
+
   # Class methods
   def self.find_by_email(email)
     where('LOWER(email) = ?', email&.downcase).first

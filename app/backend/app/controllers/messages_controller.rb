@@ -24,18 +24,18 @@ class MessagesController < ApplicationController
         conversation_id: conv[:conversation_id],
         appointment_id: conv[:appointment_id],
         other_user: {
-          user_id: other_user&.user_id,
+          user_id: other_user&.id,
           name: other_user&.name || 'Unknown User',
           role: other_user&.role,
           email: other_user&.email
         },
-        last_message: {
-          message_id: last_msg.message_id,
+        last_message: last_msg ? {
+          message_id: last_msg.id,
           content: last_msg.content,
-          timestamp: last_msg.timestamp,
+          timestamp: last_msg.created_at,
           sender_id: last_msg.sender_id,
-          read: last_msg.read
-        },
+          read: last_msg.read_at.present?
+        } : nil,
         unread_count: conv[:unread_count]
       }
     end
@@ -48,10 +48,16 @@ class MessagesController < ApplicationController
     user_id = params[:user_id] # Current user viewing the messages
     messages = Message.find_by_conversation_id(conversation_id)
     
+    # Get conversation to determine receiver
+    conversation = Conversation.find_by(id: conversation_id)
+    return render_error("Conversation not found", :not_found) unless conversation
+    
     # Mark messages as read when viewed by receiver
     if user_id
       messages.each do |m|
-        if m.receiver_id == user_id && !m.read
+        # Determine if current user is the receiver (not the sender)
+        is_receiver = m.sender_id.to_i != user_id.to_i
+        if is_receiver && m.read_at.nil?
           m.mark_as_read!
         end
       end
@@ -61,19 +67,21 @@ class MessagesController < ApplicationController
     
     # Get sender/receiver names
     enriched_messages = messages.map do |m|
-      sender = User.find_by_id(m.sender_id)
-      receiver = User.find_by_id(m.receiver_id)
+      sender = User.find_by(id: m.sender_id)
+      # Determine receiver from conversation
+      receiver_id = conversation.participant1_id == m.sender_id ? conversation.participant2_id : conversation.participant1_id
+      receiver = User.find_by(id: receiver_id)
       
       {
-        message_id: m.message_id,
+        message_id: m.id,
         sender_id: m.sender_id,
         sender_name: sender&.name || 'Unknown',
-        receiver_id: m.receiver_id,
+        receiver_id: receiver_id,
         receiver_name: receiver&.name || 'Unknown',
         content: m.content,
-        timestamp: m.timestamp,
-        attachment_url: m.attachment_url,
-        read: m.read,
+        timestamp: m.created_at,
+        attachment_url: m.attachment,
+        read: m.read_at.present?,
         read_at: m.read_at
       }
     end
@@ -148,7 +156,7 @@ class MessagesController < ApplicationController
   
   def mark_read
     message_id = params[:id]
-    message = Message.all.find { |m| m.message_id == message_id }
+    message = Message.find_by(id: message_id)
     
     if message
       message.mark_as_read!
