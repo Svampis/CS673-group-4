@@ -82,30 +82,56 @@ class MessagesController < ApplicationController
   end
   
   def create
-    message_params = params.permit(:sender_id, :receiver_id, :appointment_id, :content, :attachment_url).to_h.symbolize_keys
-    message = Message.new(message_params)
+    message_params = params.permit(:sender_id, :receiver_id, :appointment_id, :content, :attachment_url, :conversation_id).to_h.symbolize_keys
+    
+    # Handle conversation-based messaging
+    if message_params[:conversation_id].present?
+      conversation = Conversation.find_by(id: message_params[:conversation_id])
+      return render_error("Conversation not found", :not_found) unless conversation
+      
+      message = Message.new(
+        conversation: conversation,
+        sender_id: message_params[:sender_id],
+        content: message_params[:content],
+        attachment: message_params[:attachment_url]
+      )
+    else
+      # Legacy support - create or find conversation
+      if message_params[:sender_id] && message_params[:receiver_id]
+        conversation = Conversation.find_or_create_between(
+          message_params[:sender_id],
+          message_params[:receiver_id]
+        )
+        message = Message.new(
+          conversation: conversation,
+          sender_id: message_params[:sender_id],
+          content: message_params[:content],
+          attachment: message_params[:attachment_url]
+        )
+      else
+        return render_error("Sender ID and receiver ID or conversation ID required", :bad_request)
+      end
+    end
     
     if message.save
+      # Notify receiver of new message
+      NotificationService.notify_new_message(message)
+      
       # Determine conversation_id for broadcasting
-      conversation_id = if message.appointment_id.present?
-        message.appointment_id
-      else
-        Message.conversation_id(message.sender_id, message.receiver_id)
-      end
+      conversation_id = message.conversation.id
       
       # Get sender name for broadcast
-      sender = User.find_by_id(message.sender_id)
+      sender = User.find_by(id: message.sender_id)
       
       # Broadcast via ActionCable
       message_data = {
-        message_id: message.message_id,
+        message_id: message.id,
         sender_id: message.sender_id,
         sender_name: sender&.name || 'Unknown',
-        receiver_id: message.receiver_id,
         content: message.content,
-        timestamp: message.timestamp,
-        attachment_url: message.attachment_url,
-        read: message.read,
+        timestamp: message.created_at,
+        attachment_url: message.attachment,
+        read: message.read_at.present?,
         conversation_id: conversation_id
       }
       

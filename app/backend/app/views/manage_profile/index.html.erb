@@ -122,6 +122,15 @@
       font-size: 3em;
       color: white;
       flex-shrink: 0;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     
     .profile-info {
@@ -234,10 +243,18 @@
     <nav>
       <a href="/" class="logo" style="text-decoration: none; color: #2c3e50;">Workfinder</a>
       <ul class="nav-links">
-        <li><a href="/tradesmen-listing" data-turbo="false">Connect with Servicemen</a></li>
-        <li><a href="/messages-page" data-turbo="false">Messages</a></li>
-        <li id="start-project-link" style="display: none;"><a href="/start-project" data-turbo="false">Start a Project</a></li>
-        <li><a href="/manage-profile" class="active" id="manage-profile-link" style="display: none;" data-turbo="false">Manage Profile</a></li>
+        <!-- Homeowner/Contractor Navbar -->
+        <li id="homeowner-nav-find-tradesmen" style="display: none;"><a href="/tradesmen-listing" data-turbo="false">Find Tradesmen</a></li>
+        <li id="homeowner-nav-my-projects" style="display: none;"><a href="/my-projects" data-turbo="false">My Projects</a></li>
+        
+        <!-- Tradesman Navbar -->
+        <li id="tradesman-nav-projects" style="display: none;"><a href="/projects-listing" data-turbo="false">Projects</a></li>
+        
+        <!-- Common for all roles -->
+        <li id="nav-messages" style="display: none;"><a href="/messages-page" data-turbo="false">Messages <span id="nav-unread-badge" style="display: none; background-color: #2c3e50; color: white; border-radius: 12px; padding: 2px 8px; font-size: 0.75em; margin-left: 5px;">0</span></a></li>
+        <li id="nav-manage-profile" style="display: none;"><a href="/manage-profile" class="active" data-turbo="false">Manage Profile</a></li>
+        
+        <!-- Logout button -->
         <li id="auth-button-container">
           <button class="nav-button" onclick="handleAuthButtonClick()" id="auth-button">Login</button>
         </li>
@@ -288,33 +305,60 @@
         
         <div class="action-buttons">
           <button class="btn btn-primary" onclick="editProfile()">Edit Profile</button>
-          <button class="btn btn-secondary" onclick="window.location.href='/tradesmen-listing'">Back to Home</button>
+          <button class="btn btn-secondary" onclick="goBack()">Back to Home</button>
         </div>
       </div>
     </div>
   </div>
   
   <script>
+    function setupRoleBasedNavbar(userRole) {
+      // Hide all role-specific nav items first
+      const homeownerNavItems = ['homeowner-nav-find-tradesmen', 'homeowner-nav-my-projects'];
+      const tradesmanNavItems = ['tradesman-nav-projects'];
+      const commonNavItems = ['nav-messages', 'nav-manage-profile'];
+      
+      // Hide all
+      [...homeownerNavItems, ...tradesmanNavItems, ...commonNavItems].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      
+      if (!userRole) return; // Not logged in
+      
+      // Show common items for all logged-in users
+      commonNavItems.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
+      
+      // Show role-specific items
+      if (userRole === 'homeowner' || userRole === 'contractor') {
+        homeownerNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'tradesman') {
+        tradesmanNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'admin') {
+        // Admin navbar - can add admin-specific items here if needed
+      }
+    }
+    
     function checkAuthAndLoadProfile() {
       const token = localStorage.getItem('access_token');
       const userRole = localStorage.getItem('user_role');
       const userEmail = localStorage.getItem('user_email');
       
       const authButton = document.getElementById('auth-button');
-      const manageProfileLink = document.getElementById('manage-profile-link');
-      const startProjectLink = document.getElementById('start-project-link');
       
       if (token) {
         // User is logged in
         authButton.textContent = 'Logout';
-        if (manageProfileLink) {
-          manageProfileLink.style.display = 'block';
-        }
-        
-        // Show Start a Project only for homeowners
-        if (userRole === 'homeowner' && startProjectLink) {
-          startProjectLink.style.display = 'block';
-        }
+        setupRoleBasedNavbar(userRole);
         
         // Show profile container
         document.getElementById('profile-container').style.display = 'block';
@@ -324,13 +368,10 @@
       } else {
         // Not authenticated
         authButton.textContent = 'Login';
-        if (manageProfileLink) {
-          manageProfileLink.style.display = 'none';
-        }
-        if (startProjectLink) {
-          startProjectLink.style.display = 'none';
-        }
+        setupRoleBasedNavbar(null);
+        
         document.getElementById('auth-required').style.display = 'block';
+        document.getElementById('profile-container').style.display = 'none';
       }
     }
     
@@ -339,39 +380,81 @@
         // Get user data from localStorage
         const userName = localStorage.getItem('user_name');
         const userId = localStorage.getItem('user_id');
+        const token = localStorage.getItem('access_token');
         
-        // Get initial from name or email
-        const initial = userName ? userName.charAt(0).toUpperCase() : (email ? email.charAt(0).toUpperCase() : '👤');
+        // Set initial values from localStorage
+        const displayName = userName || (email ? email.split('@')[0] : 'User');
+        const displayEmail = email || 'Not available';
+        const displayRole = role ? role.charAt(0).toUpperCase() + role.slice(1) : 'User';
+        
+        // Get initial from name or email for profile image
+        const initial = displayName ? displayName.charAt(0).toUpperCase() : (email ? email.charAt(0).toUpperCase() : '👤');
         document.getElementById('profile-image').textContent = initial;
         
-        // Set profile information from localStorage
-        document.getElementById('profile-name').textContent = userName || (email ? email.split('@')[0] : 'User');
-        document.getElementById('profile-email').textContent = email || 'Not available';
-        document.getElementById('profile-role').textContent = role || 'User';
-        document.getElementById('profile-type').textContent = role ? role.charAt(0).toUpperCase() + role.slice(1) : 'User';
+        // Set profile information from localStorage (will be updated from API if available)
+        document.getElementById('profile-name').textContent = displayName;
+        document.getElementById('profile-email').textContent = displayEmail;
+        document.getElementById('profile-role').textContent = displayRole;
+        document.getElementById('profile-type').textContent = displayRole;
         
-        // Try to fetch additional profile data from API if available
-        const token = localStorage.getItem('access_token');
+        // Fetch profile data from API
         if (userId && token) {
           try {
             const response = await fetch(`/profile/${userId}`, {
               headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
               }
             });
             
             if (response.ok) {
               const data = await response.json();
+              
+              // Update name
               if (data.name) {
                 document.getElementById('profile-name').textContent = data.name;
                 localStorage.setItem('user_name', data.name);
+                // Update initial
+                const newInitial = data.name.charAt(0).toUpperCase();
+                const profileImageEl = document.getElementById('profile-image');
+                // Clear any existing image
+                profileImageEl.innerHTML = '';
+                profileImageEl.textContent = newInitial;
               }
+              
+              // Update profile photo if available
+              if (data.profile && data.profile.photo_url) {
+                const profileImageEl = document.getElementById('profile-image');
+                profileImageEl.innerHTML = `<img src="${data.profile.photo_url}" alt="Profile Photo">`;
+              }
+              
+              // Update email
               if (data.email) {
                 document.getElementById('profile-email').textContent = data.email;
               }
+              
+              // Update role
+              if (data.role) {
+                const roleDisplay = data.role.charAt(0).toUpperCase() + data.role.slice(1);
+                document.getElementById('profile-role').textContent = roleDisplay;
+                document.getElementById('profile-type').textContent = roleDisplay;
+              }
+              
+              // Add role-specific profile details
+              if (data.profile) {
+                addProfileDetails(data.profile, data.role);
+              }
+              
+              // Add address if available
+              if (data.address) {
+                addDetailRow('Address', data.address);
+              }
+            } else {
+              const errorData = await response.json().catch(() => ({}));
+              console.error('Failed to fetch profile:', errorData.error || 'Unknown error');
             }
           } catch (apiError) {
-            console.log('Could not fetch additional profile data:', apiError);
+            console.error('Error fetching profile data:', apiError);
             // Continue with localStorage data
           }
         }
@@ -382,6 +465,72 @@
         const userName = localStorage.getItem('user_name');
         document.getElementById('profile-name').textContent = userName || (email ? email.split('@')[0] : 'User');
       }
+    }
+    
+    function addProfileDetails(profile, role) {
+      const detailsContainer = document.querySelector('.profile-details');
+      
+      // Remove existing role-specific details (keep Email, Account Type, Status)
+      const existingRows = Array.from(detailsContainer.querySelectorAll('.detail-row'));
+      // Keep first 3 rows (Email, Account Type, Status), remove the rest
+      existingRows.slice(3).forEach(row => row.remove());
+      
+      // Add role-specific details
+      if (role === 'tradesman') {
+        if (profile.business_name) {
+          addDetailRow('Business Name', profile.business_name);
+        }
+        if (profile.trade_specialty) {
+          addDetailRow('Trade Specialty', profile.trade_specialty);
+        }
+        if (profile.license_number) {
+          addDetailRow('License Number', profile.license_number);
+        }
+        if (profile.years_of_experience !== undefined && profile.years_of_experience !== null) {
+          addDetailRow('Years of Experience', profile.years_of_experience);
+        }
+        if (profile.rating !== undefined && profile.rating !== null) {
+          addDetailRow('Rating', profile.rating.toFixed(1) + ' / 5.0');
+        }
+        if (profile.hourly_rate !== undefined && profile.hourly_rate !== null) {
+          addDetailRow('Hourly Rate', '$' + profile.hourly_rate.toFixed(2));
+        }
+        if (profile.service_radius !== undefined && profile.service_radius !== null) {
+          addDetailRow('Service Radius', profile.service_radius + ' miles');
+        }
+        if (profile.verification_status) {
+          addDetailRow('Verification Status', profile.verification_status.charAt(0).toUpperCase() + profile.verification_status.slice(1));
+        }
+      } else if (role === 'contractor' || role === 'homeowner') {
+        if (profile.fname || profile.lname) {
+          const fullName = [profile.fname, profile.lname].filter(Boolean).join(' ');
+          if (fullName) {
+            addDetailRow('Full Name', fullName);
+          }
+        }
+      }
+      
+      // Add address details if available
+      if (profile.street || profile.city || profile.state) {
+        const addressParts = [profile.street, profile.city, profile.state].filter(Boolean);
+        if (addressParts.length > 0) {
+          addDetailRow('Address', addressParts.join(', '));
+        }
+      }
+      if (profile.number) {
+        addDetailRow('Phone Number', profile.number);
+      }
+    }
+    
+    function addDetailRow(label, value) {
+      const detailsContainer = document.querySelector('.profile-details');
+      const detailRow = document.createElement('div');
+      detailRow.className = 'detail-row';
+      detailRow.innerHTML = `
+        <div class="detail-label">${label}</div>
+        <div class="detail-value">${value || 'Not provided'}</div>
+      `;
+      detailsContainer.appendChild(detailRow);
     }
     
     function handleAuthButtonClick() {
@@ -403,6 +552,17 @@
     
     function editProfile() {
       alert('Edit profile functionality coming soon!');
+    }
+    
+    function goBack() {
+      const userRole = localStorage.getItem('user_role');
+      if (userRole === 'homeowner' || userRole === 'contractor') {
+        window.location.href = '/tradesmen-listing';
+      } else if (userRole === 'tradesman') {
+        window.location.href = '/projects-listing';
+      } else {
+        window.location.href = '/';
+      }
     }
     
     // Run on page load

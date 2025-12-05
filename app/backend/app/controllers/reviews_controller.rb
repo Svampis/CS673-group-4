@@ -4,6 +4,9 @@ class ReviewsController < ApiController
     review = Review.new(review_params)
     
     if review.save
+      # Notify tradesman of new review
+      NotificationService.notify_new_review(review)
+      
       render json: { message: "Review submitted successfully" }, status: :created
     else
       render_error("Failed to submit review")

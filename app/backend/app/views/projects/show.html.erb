@@ -275,10 +275,18 @@
     <nav>
       <a href="/" class="logo" style="text-decoration: none; color: #2c3e50;">Workfinder</a>
       <ul class="nav-links">
-        <li><a href="/tradesmen-listing" data-turbo="false">Connect with Servicemen</a></li>
-        <li><a href="/messages-page" data-turbo="false">Messages</a></li>
-        <li><a href="/my-projects" data-turbo="false">My Projects</a></li>
-        <li><a href="/manage-profile" id="manage-profile-link" style="display: none;" data-turbo="false">Manage Profile</a></li>
+        <!-- Homeowner/Contractor Navbar -->
+        <li id="homeowner-nav-find-tradesmen" style="display: none;"><a href="/tradesmen-listing" data-turbo="false">Find Tradesmen</a></li>
+        <li id="homeowner-nav-my-projects" style="display: none;"><a href="/my-projects" data-turbo="false">My Projects</a></li>
+        
+        <!-- Tradesman Navbar -->
+        <li id="tradesman-nav-projects" style="display: none;"><a href="/projects-listing" data-turbo="false">Projects</a></li>
+        
+        <!-- Common for all roles -->
+        <li id="nav-messages" style="display: none;"><a href="/messages-page" data-turbo="false">Messages <span id="nav-unread-badge" style="display: none; background-color: #2c3e50; color: white; border-radius: 12px; padding: 2px 8px; font-size: 0.75em; margin-left: 5px;">0</span></a></li>
+        <li id="nav-manage-profile" style="display: none;"><a href="/manage-profile" data-turbo="false">Manage Profile</a></li>
+        
+        <!-- Logout button -->
         <li id="auth-button-container">
           <button class="nav-button" onclick="handleAuthButtonClick()" id="auth-button">Login</button>
         </li>
@@ -356,18 +364,51 @@
   </div>
   
   <script>
+    function setupRoleBasedNavbar(userRole) {
+      // Hide all role-specific nav items first
+      const homeownerNavItems = ['homeowner-nav-find-tradesmen', 'homeowner-nav-my-projects'];
+      const tradesmanNavItems = ['tradesman-nav-projects'];
+      const commonNavItems = ['nav-messages', 'nav-manage-profile'];
+      
+      // Hide all
+      [...homeownerNavItems, ...tradesmanNavItems, ...commonNavItems].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      
+      if (!userRole) return; // Not logged in
+      
+      // Show common items for all logged-in users
+      commonNavItems.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
+      
+      // Show role-specific items
+      if (userRole === 'homeowner' || userRole === 'contractor') {
+        homeownerNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'tradesman') {
+        tradesmanNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'admin') {
+        // Admin navbar - can add admin-specific items here if needed
+      }
+    }
+    
     function checkAuthAndLoadProject() {
       const token = localStorage.getItem('access_token');
       const userRole = localStorage.getItem('user_role');
       
       const authButton = document.getElementById('auth-button');
-      const manageProfileLink = document.getElementById('manage-profile-link');
       
       if (token) {
         authButton.textContent = 'Logout';
-        if (manageProfileLink) {
-          manageProfileLink.style.display = 'block';
-        }
+        setupRoleBasedNavbar(userRole);
         
         // Get project ID from URL
         const pathParts = window.location.pathname.split('/');
@@ -376,6 +417,7 @@
         loadProject(projectId);
       } else {
         authButton.textContent = 'Login';
+        setupRoleBasedNavbar(null);
         window.location.href = '/';
       }
     }

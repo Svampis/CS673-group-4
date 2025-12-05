@@ -241,9 +241,18 @@
     <nav class="container">
       <a href="/" class="logo" style="text-decoration: none; color: #2c3e50;">Workfinder</a>
       <ul class="nav-links">
-        <li><a href="/messages-page" id="messages-nav-link" style="display: none;" data-turbo="false">Messages <span id="nav-unread-badge" style="display: none; background-color: #2c3e50; color: white; border-radius: 12px; padding: 2px 8px; font-size: 0.75em; margin-left: 5px;">0</span></a></li>
-        <li id="my-projects-link" style="display: none;"><a href="/my-projects" data-turbo="false">My Projects</a></li>
-        <li><a href="/manage-profile" id="manage-profile-link" style="display: none;" data-turbo="false">Manage Profile</a></li>
+        <!-- Homeowner/Contractor Navbar -->
+        <li id="homeowner-nav-find-tradesmen" style="display: none;"><a href="/tradesmen-listing" data-turbo="false">Find Tradesmen</a></li>
+        <li id="homeowner-nav-my-projects" style="display: none;"><a href="/my-projects" data-turbo="false">My Projects</a></li>
+        
+        <!-- Tradesman Navbar -->
+        <li id="tradesman-nav-projects" style="display: none;"><a href="/projects-listing" data-turbo="false">Projects</a></li>
+        
+        <!-- Common for all roles -->
+        <li id="nav-messages" style="display: none;"><a href="/messages-page" data-turbo="false">Messages <span id="nav-unread-badge" style="display: none; background-color: #2c3e50; color: white; border-radius: 12px; padding: 2px 8px; font-size: 0.75em; margin-left: 5px;">0</span></a></li>
+        <li id="nav-manage-profile" style="display: none;"><a href="/manage-profile" data-turbo="false">Manage Profile</a></li>
+        
+        <!-- Logout button -->
         <li id="auth-button-container">
           <button class="nav-button" onclick="handleAuthButtonClick()" id="auth-button">Login</button>
         </li>
@@ -255,7 +264,7 @@
     <div class="container">
       <h1>Find Trusted Tradesmen Near You</h1>
       <p>Connect with licensed professionals for plumbing, electrical, HVAC, and more. Schedule appointments, get quotes, and read reviews all in one place.</p>
-      <button class="cta-button" onclick="openProfileModal()" style="border: none; cursor: pointer;">Get Started</button>
+      <button class="cta-button" onclick="handleGetStarted()" style="border: none; cursor: pointer;">Get Started</button>
     </div>
   </section>
   
@@ -349,6 +358,7 @@
       <div class="modal-body">
         <div class="role-selector" id="role-selector" style="display: none;">
           <button class="role-button active" onclick="selectRole('homeowner')">Homeowner</button>
+          <button class="role-button" onclick="selectRole('contractor')">Contractor</button>
           <button class="role-button" onclick="selectRole('tradesman')">Tradesman</button>
         </div>
         
@@ -377,10 +387,76 @@
             <label>Password</label>
             <input type="password" id="signup-password" required>
           </div>
-          <div class="form-group">
-            <label>Address</label>
-            <input type="text" id="signup-address" placeholder="123 Main St, City, ZIP">
+          
+          <!-- Homeowner/Contractor specific fields (shared) -->
+          <div id="homeowner-fields" style="display: none;">
+            <div class="form-group">
+              <label>Street Address</label>
+              <input type="text" id="signup-street" placeholder="123 Main St">
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="signup-city" placeholder="City">
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" id="signup-state" placeholder="State">
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" id="signup-number" placeholder="(555) 123-4567">
+            </div>
           </div>
+          
+          <!-- Tradesman specific fields -->
+          <div id="tradesman-fields" style="display: none;">
+            <div class="form-group">
+              <label>Trade Specialty</label>
+              <select id="signup-trade-specialty" required>
+                <option value="">Select a trade</option>
+                <option value="plumber">Plumber</option>
+                <option value="electrician">Electrician</option>
+                <option value="hvac worker">HVAC Worker</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>License Number</label>
+              <input type="text" id="signup-license-number" placeholder="License number">
+            </div>
+            <div class="form-group">
+              <label>Business Name</label>
+              <input type="text" id="signup-business-name" placeholder="Business name (optional)">
+            </div>
+            <div class="form-group">
+              <label>Years of Experience</label>
+              <input type="number" id="signup-years-experience" min="0" placeholder="Years">
+            </div>
+            <div class="form-group">
+              <label>Street Address</label>
+              <input type="text" id="signup-street" placeholder="123 Main St">
+            </div>
+            <div class="form-group">
+              <label>City</label>
+              <input type="text" id="signup-city" placeholder="City">
+            </div>
+            <div class="form-group">
+              <label>State</label>
+              <input type="text" id="signup-state" placeholder="State">
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" id="signup-number" placeholder="(555) 123-4567">
+            </div>
+            <div class="form-group">
+              <label>Hourly Rate ($)</label>
+              <input type="number" id="signup-hourly-rate" min="0" step="0.01" placeholder="50.00">
+            </div>
+            <div class="form-group">
+              <label>Service Radius (miles)</label>
+              <input type="number" id="signup-service-radius" min="0" step="0.1" placeholder="25.0">
+            </div>
+          </div>
+          
           <button type="submit" class="submit-button">Sign Up</button>
         </form>
         
@@ -478,7 +554,8 @@
       color: #555;
     }
     
-    .form-group input {
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px;
       border: 1px solid #ddd;
@@ -487,7 +564,8 @@
       box-sizing: border-box;
     }
     
-    .form-group input:focus {
+    .form-group input:focus,
+    .form-group select:focus {
       outline: none;
       border-color: #3498db;
     }
@@ -570,12 +648,30 @@
         document.getElementById('modal-title').textContent = 'Sign Up';
         document.getElementById('switch-text').textContent = 'Already have an account? ';
         document.getElementById('switch-link').textContent = 'Login';
+        updateSignupFields(); // Update fields when switching to signup
       }
     }
     
     function selectRole(role) {
       selectedRole = role;
       updateRoleButtons();
+      updateSignupFields();
+    }
+    
+    function updateSignupFields() {
+      const homeownerFields = document.getElementById('homeowner-fields');
+      const tradesmanFields = document.getElementById('tradesman-fields');
+      
+      if (selectedRole === 'homeowner' || selectedRole === 'contractor') {
+        if (homeownerFields) homeownerFields.style.display = 'block';
+        if (tradesmanFields) tradesmanFields.style.display = 'none';
+      } else if (selectedRole === 'tradesman') {
+        if (homeownerFields) homeownerFields.style.display = 'none';
+        if (tradesmanFields) tradesmanFields.style.display = 'block';
+      } else {
+        if (homeownerFields) homeownerFields.style.display = 'none';
+        if (tradesmanFields) tradesmanFields.style.display = 'none';
+      }
     }
     
     function updateRoleButtons() {
@@ -626,13 +722,37 @@
       const name = document.getElementById('signup-name').value;
       const email = document.getElementById('signup-email').value;
       const password = document.getElementById('signup-password').value;
-      const address = document.getElementById('signup-address').value;
+      
+      let signupData = {
+        name: name,
+        email: email,
+        password: password,
+        role: selectedRole
+      };
+      
+      if (selectedRole === 'homeowner' || selectedRole === 'contractor') {
+        signupData.street = document.getElementById('signup-street').value;
+        signupData.city = document.getElementById('signup-city').value;
+        signupData.state = document.getElementById('signup-state').value;
+        signupData.number = document.getElementById('signup-number').value;
+      } else if (selectedRole === 'tradesman') {
+        signupData.trade_specialty = document.getElementById('signup-trade-specialty').value;
+        signupData.license_number = document.getElementById('signup-license-number').value;
+        signupData.business_name = document.getElementById('signup-business-name').value;
+        signupData.years_of_experience = document.getElementById('signup-years-experience').value;
+        signupData.street = document.getElementById('signup-street').value;
+        signupData.city = document.getElementById('signup-city').value;
+        signupData.state = document.getElementById('signup-state').value;
+        signupData.number = document.getElementById('signup-number').value;
+        signupData.hourly_rate = document.getElementById('signup-hourly-rate').value;
+        signupData.service_radius = document.getElementById('signup-service-radius').value;
+      }
       
       try {
         const response = await fetch('/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password, role: selectedRole, address })
+          body: JSON.stringify(signupData)
         });
         
         const data = await response.json();
@@ -662,6 +782,8 @@
       const authButton = document.getElementById('auth-button');
       const manageProfileLink = document.getElementById('manage-profile-link');
       const myProjectsLink = document.getElementById('my-projects-link');
+      const createProjectLink = document.getElementById('create-project-link');
+      const projectsListingLink = document.getElementById('projects-listing-link');
       const messagesNavLink = document.getElementById('messages-nav-link');
       
       if (token) {
@@ -669,24 +791,17 @@
         if (manageProfileLink) {
           manageProfileLink.style.display = 'block';
         }
-        if (myProjectsLink && userRole === 'homeowner') {
-          myProjectsLink.style.display = 'block';
-        }
         if (messagesNavLink) {
           messagesNavLink.style.display = 'block';
           updateNavUnreadCount();
         }
+        
+        // Show role-specific navbar items
+        setupRoleBasedNavbar(userRole);
       } else {
         authButton.textContent = 'Login';
-        if (manageProfileLink) {
-          manageProfileLink.style.display = 'none';
-        }
-        if (myProjectsLink) {
-          myProjectsLink.style.display = 'none';
-        }
-        if (messagesNavLink) {
-          messagesNavLink.style.display = 'none';
-        }
+        // Hide all navbar items when not logged in
+        setupRoleBasedNavbar(null);
       }
     }
     
@@ -715,6 +830,69 @@
         }
       } catch (error) {
         console.error('Error updating nav unread count:', error);
+      }
+    }
+    
+    function setupRoleBasedNavbar(userRole) {
+      // Hide all role-specific nav items first
+      const homeownerNavItems = ['homeowner-nav-find-tradesmen', 'homeowner-nav-my-projects'];
+      const tradesmanNavItems = ['tradesman-nav-projects'];
+      const commonNavItems = ['nav-messages', 'nav-manage-profile'];
+      
+      // Hide all
+      [...homeownerNavItems, ...tradesmanNavItems, ...commonNavItems].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      
+      if (!userRole) return; // Not logged in
+      
+      // Show common items for all logged-in users
+      commonNavItems.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
+      
+      // Show role-specific items
+      if (userRole === 'homeowner') {
+        homeownerNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'contractor') {
+        // Contractor has same navbar as homeowner
+        homeownerNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'tradesman') {
+        tradesmanNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'admin') {
+        // Admin navbar - can add admin-specific items here if needed
+        // For now, just show common items
+      }
+    }
+    
+    function handleGetStarted() {
+      const token = localStorage.getItem('access_token');
+      const userRole = localStorage.getItem('user_role');
+      
+      if (token && userRole) {
+        // User is logged in - redirect based on role
+        if (userRole === 'homeowner' || userRole === 'contractor') {
+          window.location.href = '/tradesmen-listing';
+        } else if (userRole === 'tradesman') {
+          window.location.href = '/projects-listing';
+        } else {
+          // For other roles, open modal
+          openProfileModal();
+        }
+      } else {
+        // User not logged in - open login modal
+        openProfileModal();
       }
     }
     

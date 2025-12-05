@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Workfinder - Open Projects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      list-style: none;
+      align-items: center;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-links a.active {
+      color: #3498db;
+    }
+    
+    .nav-links a:hover {
+      color: #2c3e50;
+    }
+    
+    .nav-button {
+      background-color: #2c3e50;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .page-header {
+      margin-bottom: 40px;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5em;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .page-header p {
+      color: #666;
+      font-size: 1.1em;
+    }
+    
+    .filters {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .filter-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .filter-group input,
+    .filter-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+    }
+    
+    .project-card {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    
+    .project-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+      color: #666;
+    }
+    
+    .project-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .project-description {
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .bid-count {
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    .btn-bid {
+      background-color: #2c3e50;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: none;
+      font-size: 0.9em;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .btn-bid:hover {
+      background-color: #34495e;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+    
+    .empty-state {
+      background: white;
+      border-radius: 8px;
+      padding: 60px 40px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .empty-state-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
+    
+    .empty-state h2 {
+      font-size: 1.8em;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+    
+    .empty-state p {
+      color: #666;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/" class="logo" style="text-decoration: none; color: #2c3e50;">Workfinder</a>
+      <ul class="nav-links">
+        <!-- Homeowner/Contractor Navbar -->
+        <li id="homeowner-nav-find-tradesmen" style="display: none;"><a href="/tradesmen-listing" data-turbo="false">Find Tradesmen</a></li>
+        <li id="homeowner-nav-my-projects" style="display: none;"><a href="/my-projects" data-turbo="false">My Projects</a></li>
+        
+        <!-- Tradesman Navbar -->
+        <li id="tradesman-nav-projects" style="display: none;"><a href="/projects-listing" class="active" data-turbo="false">Projects</a></li>
+        
+        <!-- Common for all roles -->
+        <li id="nav-messages" style="display: none;"><a href="/messages-page" data-turbo="false">Messages <span id="nav-unread-badge" style="display: none; background-color: #2c3e50; color: white; border-radius: 12px; padding: 2px 8px; font-size: 0.75em; margin-left: 5px;">0</span></a></li>
+        <li id="nav-manage-profile" style="display: none;"><a href="/manage-profile" data-turbo="false">Manage Profile</a></li>
+        
+        <!-- Logout button -->
+        <li id="auth-button-container">
+          <button class="nav-button" onclick="handleAuthButtonClick()" id="auth-button">Login</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  
+  <div class="container">
+    <div id="auth-required" class="empty-state" style="display: none;">
+      <h2>Authentication Required</h2>
+      <p>You must be logged in as a tradesman to view open projects.</p>
+      <button class="btn-bid" onclick="window.location.href='/'">Go to Login</button>
+    </div>
+    
+    <div id="content" style="display: none;">
+      <div class="page-header">
+        <h1>Open Projects</h1>
+        <p>Browse available projects and place your bids</p>
+      </div>
+      
+      <div class="filters">
+        <div class="filter-group">
+          <label>Trade Type</label>
+          <select id="filter-trade-type">
+            <option value="">All Trades</option>
+            <option value="plumber">Plumber</option>
+            <option value="electrician">Electrician</option>
+            <option value="hvac worker">HVAC Worker</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Location</label>
+          <input type="text" id="filter-location" placeholder="City or ZIP">
+        </div>
+        <div class="filter-group">
+          <label>Min Budget</label>
+          <input type="number" id="filter-min-budget" placeholder="Min budget">
+        </div>
+        <div class="filter-group">
+          <label>Max Budget</label>
+          <input type="number" id="filter-max-budget" placeholder="Max budget">
+        </div>
+      </div>
+      
+      <div id="loading" class="loading">
+        <p>Loading projects...</p>
+      </div>
+      
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-state-icon">📋</div>
+        <h2>No open projects found</h2>
+        <p>Try adjusting your filters or check back later</p>
+      </div>
+      
+      <div id="projects-grid" class="projects-grid" style="display: none;">
+        <!-- Projects will be loaded here -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function checkAuthAndLoadProjects() {
+      const token = localStorage.getItem('access_token');
+      const userRole = localStorage.getItem('user_role');
+      
+      if (!token || userRole !== 'tradesman') {
+        document.getElementById('auth-required').style.display = 'block';
+        return;
+      }
+      
+      document.getElementById('content').style.display = 'block';
+      loadProjects();
+      
+      // Setup filter listeners
+      document.getElementById('filter-trade-type').addEventListener('change', loadProjects);
+      document.getElementById('filter-location').addEventListener('input', debounce(loadProjects, 500));
+      document.getElementById('filter-min-budget').addEventListener('input', debounce(loadProjects, 500));
+      document.getElementById('filter-max-budget').addEventListener('input', debounce(loadProjects, 500));
+    }
+    
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+    
+    async function loadProjects() {
+      const tradeType = document.getElementById('filter-trade-type').value;
+      const location = document.getElementById('filter-location').value;
+      const minBudget = document.getElementById('filter-min-budget').value;
+      const maxBudget = document.getElementById('filter-max-budget').value;
+      const userId = localStorage.getItem('user_id');
+      
+      const params = new URLSearchParams();
+      // Explicitly send 'all' when "All Trades" is selected to prevent auto-detection
+      if (tradeType) {
+        params.append('trade_type', tradeType);
+      } else {
+        params.append('trade_type', 'all');
+      }
+      if (location) params.append('location', location);
+      if (minBudget) params.append('min_budget', minBudget);
+      if (maxBudget) params.append('max_budget', maxBudget);
+      if (userId) params.append('user_id', userId);
+      
+      try {
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('projects-grid').style.display = 'none';
+        document.getElementById('empty-state').style.display = 'none';
+        
+        const response = await fetch(`/api/projects/search?${params.toString()}`);
+        
+        if (response.ok) {
+          const projects = await response.json();
+          displayProjects(projects);
+        } else {
+          console.error('Failed to load projects');
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('empty-state').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading projects:', error);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('empty-state').style.display = 'block';
+      }
+    }
+    
+    function displayProjects(projects) {
+      document.getElementById('loading').style.display = 'none';
+      
+      if (projects.length === 0) {
+        document.getElementById('empty-state').style.display = 'block';
+      } else {
+        const grid = document.getElementById('projects-grid');
+        grid.style.display = 'grid';
+        grid.innerHTML = '';
+        
+        projects.forEach(project => {
+          const card = createProjectCard(project);
+          grid.appendChild(card);
+        });
+      }
+    }
+    
+    function createProjectCard(project) {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      
+      const preferredDate = project.preferred_date ? 
+        new Date(project.preferred_date).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        }) : 'Not specified';
+      
+      card.innerHTML = `
+        <div class="project-title">${project.title}</div>
+        
+        <div class="project-meta">
+          <div class="project-meta-item">
+            <span>🔧</span>
+            <span>${project.trade_type || 'N/A'}</span>
+          </div>
+          ${project.budget ? `
+          <div class="project-meta-item">
+            <span>💰</span>
+            <span>$${project.budget}</span>
+          </div>
+          ` : ''}
+          <div class="project-meta-item">
+            <span>📍</span>
+            <span>${project.location || 'N/A'}</span>
+          </div>
+          <div class="project-meta-item">
+            <span>📅</span>
+            <span>${preferredDate}</span>
+          </div>
+        </div>
+        
+        <div class="project-description">${project.description || 'No description provided'}</div>
+        
+        <div class="project-footer">
+          <div class="bid-count">${project.bid_count || 0} bid(s)</div>
+          <button class="btn-bid" onclick="viewProject(${project.project_id})">View & Bid</button>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    function viewProject(projectId) {
+      window.location.href = `/projects/${projectId}`;
+    }
+    
+    function handleAuthButtonClick() {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user_role');
+        localStorage.removeItem('user_email');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_name');
+        alert('Logged out successfully!');
+        location.reload();
+      } else {
+        window.location.href = '/';
+      }
+    }
+    
+    function setupRoleBasedNavbar(userRole) {
+      // Hide all role-specific nav items first
+      const homeownerNavItems = ['homeowner-nav-find-tradesmen', 'homeowner-nav-my-projects'];
+      const tradesmanNavItems = ['tradesman-nav-projects'];
+      const commonNavItems = ['nav-messages', 'nav-manage-profile'];
+      
+      // Hide all
+      [...homeownerNavItems, ...tradesmanNavItems, ...commonNavItems].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      
+      if (!userRole) return; // Not logged in
+      
+      // Show common items for all logged-in users
+      commonNavItems.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+      });
+      
+      // Show role-specific items
+      if (userRole === 'homeowner' || userRole === 'contractor') {
+        homeownerNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'tradesman') {
+        tradesmanNavItems.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = 'block';
+        });
+      } else if (userRole === 'admin') {
+        // Admin navbar - can add admin-specific items here if needed
+      }
+    }
+    
+    function checkAuthStatus() {
+      const token = localStorage.getItem('access_token');
+      const userRole = localStorage.getItem('user_role');
+      const authButton = document.getElementById('auth-button');
+      
+      if (token) {
+        authButton.textContent = 'Logout';
+        setupRoleBasedNavbar(userRole);
+      } else {
+        authButton.textContent = 'Login';
+        setupRoleBasedNavbar(null);
+      }
+    }
+    
+    // Run on page load
+    checkAuthStatus();
+    checkAuthAndLoadProjects();
+  </script>
+</body>
+</html>
+
