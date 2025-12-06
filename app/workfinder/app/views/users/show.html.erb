@@ -8,3 +8,24 @@
   <p><strong>Description:</strong> <%= @user.description %></p>
   <% end %>
 </div>
+<% if @user.role == 1 %>
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; width: 500px; box-shadow: 2px 2px 6px rgba(0,0,0,0.1);">    
+    <strong>Available appointment time slots</strong>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Start time</th>
+          <th>End time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @appointments.all.each do |appointment| %>
+        <tr>
+          <td> <%= appointment.start_time %> </td>
+          <td> <%= appointment.end_time %> </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+</div>
+<% end %>
