@@ -1,4 +1,11 @@
 <h1>Servicemen</h1>
+
+<%= form_with url: users_path, method: :get, local: true do |f| %>
+  <%= f.label :city, "City" %>
+  <%= f.text_field :city, placeholder: "Search by city" %>
+  <%= f.submit "Search" %>
+<% end %>
+
 <div id="users" style="display: flex; flex-wrap: wrap; gap: 1rem;">
   <% @users.where(role: 1).each do |user| %>
     <%= link_to user_path(user), style: "text-decoration: none; color: inherit;" do %>

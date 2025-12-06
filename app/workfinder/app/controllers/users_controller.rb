@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   def index
-    @users = User.all
+    if params[:city].present?
+      @users = User.where("city LIKE ?", "%" + params[:city] + "%")
+    else
+      @users = User.all
+    end
   end
 
   def show
