@@ -1,0 +1,12 @@
+<h1>Servicemen</h1>
+<div id="users" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+  <% @users.where(role: 1).each do |user| %>
+    <%= link_to user_path(user), style: "text-decoration: none; color: inherit;" do %>
+      <div style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; width: 250px; box-shadow: 2px 2px 6px rgba(0,0,0,0.1); cursor: pointer;">
+        <h2><%= user.name %></h2>
+        <p><strong>Username:</strong> <%= user.username %></p>
+        <p><strong>Description:</strong> <%= user.description %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

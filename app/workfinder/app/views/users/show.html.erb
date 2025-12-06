@@ -1,0 +1,10 @@
+<div style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; width: 250px; box-shadow: 2px 2px 6px rgba(0,0,0,0.1);">
+  <% if @user.role == 1 %>
+  <h2><%= @user.name %></h2>
+  <p><strong>Username:</strong> <%= @user.username %></p>
+  <p><strong>Email:</strong> <%= @user.email %></p>
+  <p><strong>City:</strong> <%= @user.city %></p>
+  <p><strong>State:</strong> <%= @user.state %></p>
+  <p><strong>Description:</strong> <%= @user.description %></p>
+  <% end %>
+</div>
