@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_06_184340) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_07_025119) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "customer_id"
@@ -43,6 +43,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_184340) do
     t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "active"
     t.string "city"
@@ -63,4 +72,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_184340) do
   add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "reviews", "users", column: "reviewee_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
+  add_foreign_key "sessions", "users"
 end
