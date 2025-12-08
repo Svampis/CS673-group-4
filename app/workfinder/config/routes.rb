@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   get "/signup", to: "registrations#new", as: "signup"
   post "/signup", to: "registrations#create"
 
-  get "/messages/:id", to: "messages#index"
+  get "/messages/", to: "messages#index"
+  get "/messages/:id", to: "messages#show", as: :message
   post "/messages", to: "messages#create"
 
   root "users#index"
