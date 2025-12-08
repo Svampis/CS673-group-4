@@ -3,6 +3,8 @@
 <%= form_with url: users_path, method: :get, local: true do |f| %>
   <%= f.label :city, "City" %>
   <%= f.text_field :city, placeholder: "Search by city" %>
+  <%= f.label :state, "State" %>
+  <%= f.text_field :state, placeholder: "Search by state" %>
   <%= f.submit "Search" %>
 <% end %>
 

@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
   def index
+    @users = User.all
     if params[:city].present?
-      @users = User.where("city LIKE ?", "%" + params[:city] + "%")
-    else
-      @users = User.all
+      @users = @users.where("city LIKE ?", "%" + params[:city] + "%")
+    end
+    if params[:state].present?
+      @users = @users.where("state LIKE ?", "%" + params[:state] + "%")
     end
   end
 
