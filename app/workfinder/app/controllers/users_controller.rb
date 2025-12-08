@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @visitor = current_user
     @user = User.find(params[:id])
     @appointments = Appointment.where(worker_id: @user.id, customer_id: nil)
   end

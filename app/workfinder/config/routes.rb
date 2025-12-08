@@ -25,6 +25,15 @@ Rails.application.routes.draw do
   get "/messages/:id", to: "messages#show", as: :message
   post "/messages", to: "messages#create"
 
+  get "/appointments/", to: "appointments#index"
+  post "/appointments/", to: "appointments#create"
+
+  resources :appointments do
+    member do
+      patch :schedule
+      patch :cancel
+    end
+  end
   root "users#index"
   resources :users
   resources :messages

@@ -33,6 +33,7 @@
       <ul class="nav">
         <li><%= link_to "Home", root_path %></li>
         <% if authenticated? %>
+          <li><%= link_to "My Appointments", appointments_path %>
           <li><%= link_to "Messages", messages_path %>
           <li><%= button_to "Log out", session_path, method: :delete %></li>
 
