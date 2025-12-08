@@ -1,0 +1,40 @@
+<h1>Messages with <%= @receiver.username %></h1>
+<div>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Sender</th>
+        <th>Message body</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @messages.all.each do |message| %>
+        <tr>
+          <td> 
+            <%= 
+              if message.sender_id == @sender.id
+                @sender.username
+              else
+                @receiver.username
+              end
+            %> </td>
+          <td> <%= message.body %> </td>
+          <td> <%= message.created_at %> </td>
+        <tr>
+      <%end %>
+    </tbody>
+  </table>
+
+  <h2> Write a message </h2>
+  <%= form_with model: @message do |form| %>
+    <div>
+      <%= form.text_field :body %>
+      <%= form.hidden_field :sender_id, value: @sender.id %>
+      <%= form.hidden_field :receiver_id, value: @receiver.id %>
+    </div>
+    <div>
+      <%= form.submit "Send" %>
+    </div>
+  <% end %>
+</div>

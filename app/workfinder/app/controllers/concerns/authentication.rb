@@ -44,7 +44,10 @@ module Authentication
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
       end
     end
-
+    
+    def current_user
+      Current.session&.user
+    end
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
