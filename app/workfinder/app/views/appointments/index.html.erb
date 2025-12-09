@@ -1,18 +1,24 @@
 <% if @current_user.role == 1 %>
+  <div class="appointments-page">
   <h1>Your appointments and time slots</h1>
 
   <h2>Create a new time slot</h2>
-  <div>
+
+  <div class="timeslot-form-wrapper">
     <%= form_with model: @appointment do |form| %>
       <%= form.label :start_time, "Start time" %>
       <%= form.datetime_local_field :start_time %>
+
       <%= form.label :end_time, "End time" %>
       <%= form.datetime_local_field :end_time %>
+
       <%= form.hidden_field :worker_id, value: @current_user.id %>
+
       <%= form.submit "Submit" %>
     <% end %>
   </div>
-  <h2>Open time slots</h2>
+</div>
+  <h2>Your open slots</h2>
   <table border="1">
     <thead>
       <tr>

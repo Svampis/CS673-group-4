@@ -8,3 +8,579 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+/* Container */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.nav {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  justify-content: flex-end; /* <-- push all li to the right */
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  padding: 0.5rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Reusable nav-item component for font and spacing */
+.nav-item {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600; /* light */
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  text-decoration: none;
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Logout button style */
+.logout-button {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #e03e3e;
+}
+
+.search-form-inner {
+  display: flex;
+  flex-direction: row;      /* lay out children horizontally */
+  gap: 1rem;                /* spacing between city and state fields */
+  align-items: flex-end;    /* align labels and inputs nicely */
+  justify-content: center;  /* center the row horizontally */
+  flex-wrap: wrap;          /* wrap fields on smaller screens */
+}
+
+/* Center the entire form horizontally */
+.search-form {
+  display: flex;
+  flex-direction: column; /* stack fields vertically */
+  align-items: center;    /* center the fields */
+  gap: 1rem;              /* spacing between fields */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 300;
+  margin: 2rem 0;         /* spacing above/below form */
+}
+
+/* Form groups to stack label + input */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers label and input together */
+  gap: 0.25rem;
+}
+
+/* Labels */
+.search-form label {
+  font-weight: 500;
+  text-align: center; /* center label text */
+}
+
+/* Text fields */
+.search-form input[type="text"] {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-weight: 300;
+  transition: border-color 0.2s;
+  text-align: left; /* or center if you prefer */
+}
+
+.search-form input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Submit button */
+.search-button {
+  padding: 0.5rem 1rem;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+h1 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;       /* light font */
+  letter-spacing: 0.5px;  /* subtle spacing */
+  line-height: 1.4;       /* comfortable line height */
+  color: #111;            /* dark text for readability */
+  margin-bottom: 1rem;    /* spacing below heading */
+  font-size: 2rem;        /* adjust as needed */
+  text-align: center;
+}
+
+h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;       /* light font */
+  letter-spacing: 0.5px;  /* subtle spacing */
+  line-height: 1.4;       /* comfortable line height */
+  color: #111;            /* dark text for readability */
+  font-size: 1.5rem;        /* adjust as needed */
+  text-align: center;
+}
+
+/* Table container */
+table {
+  width: 100%;
+  border-collapse: collapse; /* removes double borders */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  margin-bottom: 2rem;
+}
+
+/* Table header */
+table thead tr {
+  background-color: #f8f8f8;
+}
+
+table thead td {
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Table body cells */
+table tbody td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+/* Hover effect on rows */
+table tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* Links inside table */
+table tbody td a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.2s;
+}
+
+table tbody td a:hover {
+  color: #0056b3;
+}
+
+/* Buttons inside table */
+table tbody td form button {
+  padding: 0.35rem 0.75rem;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+table tbody td form button:hover {
+  background-color: #e03e3e;
+}
+
+#users {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center; /* center all cards horizontally */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600; /* light font */
+}
+
+/* Each user card */
+.user-card {
+  display: flex;              /* horizontal layout */
+  flex-direction: row;        /* content flows left → right */
+  align-items: center;        /* center content vertically */
+  justify-content: center;    /* center content horizontally inside card */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 400px;               /* adjust width as needed */
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  text-align: center;         /* center text inside the card */
+  gap: 1rem;                  /* spacing between content inside the card */
+  background-color: #fff;     /* optional: white background */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Card headings */
+.user-card h2 {
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Card paragraphs */
+.user-card p {
+  margin: 0.25rem 0;
+  font-weight: 300;
+}
+
+.users-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;
+}
+
+.users-page .user-card,
+.users-page .appointment-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 1000px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background-color: #ffffff;
+}
+
+
+.users-page h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.users-page p {
+  margin: 0.3rem 0;
+  color: #555;
+}
+
+.users-page button {
+  background-color: black;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.users-page button:hover {
+  background-color: black;
+  transform: translateY(-2px);
+}
+
+.users-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.users-page th,
+.users-page td {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.users-page th {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.users-page td button {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.9rem;
+}
+.users-page .label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;   /* bold */
+  color: #333;        /* slightly darker for emphasis */
+}
+
+.messages-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center; /* center the cards horizontally */
+  padding: 1rem;
+}
+
+.message-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.user-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background-color: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.user-card .label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;
+  color: #333;
+}
+
+.message-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* makes form stretch */
+  height: 100%;
+}
+
+.message-form-container h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.message-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.message-form input[type="text"] {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.message-form input[type="text"]:focus {
+  outline: none;
+  border-color: black;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+.message-form input[type="submit"] {
+  background-color: black;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.message-form input[type="submit"]:hover {
+  background-color: black;
+  transform: translateY(-2px);
+}
+
+.message-thread-page {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 600;
+
+  align-items: start; /* ensures items align to top */
+}
+
+.message-thread-page {
+  align-items: start;
+}
+
+
+/* Center the page and make background subtle */
+.signup-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* full viewport height */
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* soft modern gradient */
+  padding: 2rem;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  border: 3px dashed red;
+}
+
+/* Card container */
+.signup-container {
+  width: 100%;
+  max-width: 450px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  text-align: center; /* center headings and form */
+  font-weight: 600;
+}
+
+/* Header */
+.signup-container h1 {
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 2rem;
+}
+
+/* Form groups */
+.signup-form .form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Labels */
+.signup-form label {
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Inputs and select */
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"],
+.signup-form select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.signup-form input[type="text"]:focus,
+.signup-form input[type="email"]:focus,
+.signup-form input[type="password"]:focus,
+.signup-form select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Submit button */
+.signup-form input[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  background-color: black;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.signup-form input[type="submit"]:hover {
+  background-color: black;
+  transform: translateY(-2px);
+}
+
+.appointments-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+               Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.appointments-page h1,
+.appointments-page h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.timeslot-form-wrapper {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.timeslot-form-wrapper form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timeslot-form-wrapper label {
+  font-weight: 600;
+  color: #333;
+}
+
+.timeslot-form-wrapper input[type="datetime-local"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.timeslot-form-wrapper input[type="submit"] {
+  background: black;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.timeslot-form-wrapper input[type="submit"]:hover {
+  background: black;
+  transform: translateY(-2px);
+}

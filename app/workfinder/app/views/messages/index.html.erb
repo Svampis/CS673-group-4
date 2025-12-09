@@ -1,10 +1,10 @@
 <h1>Messages</h1>
 
-<div id="messages" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+<div id="messages" class="messages-container">
   <% @users.each do |user| %>
     <%= link_to message_path(user), style: "text-decoration: none; color: inherit;" do %>
-      <div style="border: 1px solid #ccc; border-radius: 8px; padding: 1rem; width: 250px; box-shadow: 2px 2px 6px rgba(0,0,0,0.1); cursor: pointer;">
-        <p><strong>Username:</strong> <%= user.username %></p>
+      <div class= "user-card">
+        <p><span class="label"><strong>Username:</strong> <%= user.username %></p>
       </div>
     <% end %>
   <% end %>
