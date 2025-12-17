@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_07_025119) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_17_164743) do
   create_table "appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "customer_id"
@@ -22,6 +22,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_07_025119) do
     t.index ["worker_id"], name: "index_appointments_on_worker_id"
   end
 
+  create_table "bids", force: :cascade do |t|
+    t.integer "bid_amount"
+    t.integer "bidder_id_id", null: false
+    t.datetime "created_at", null: false
+    t.string "position_description"
+    t.integer "project_id_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bidder_id_id"], name: "index_bids_on_bidder_id_id"
+    t.index ["project_id_id"], name: "index_bids_on_project_id_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -30,6 +41,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_07_025119) do
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_messages_on_receiver_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.integer "owner_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_projects_on_owner_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -68,8 +87,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_07_025119) do
 
   add_foreign_key "appointments", "users", column: "customer_id"
   add_foreign_key "appointments", "users", column: "worker_id"
+  add_foreign_key "bids", "projects", column: "project_id_id"
+  add_foreign_key "bids", "users", column: "bidder_id_id"
   add_foreign_key "messages", "users", column: "receiver_id"
   add_foreign_key "messages", "users", column: "sender_id"
+  add_foreign_key "projects", "users", column: "owner_id"
   add_foreign_key "reviews", "users", column: "reviewee_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "sessions", "users"
