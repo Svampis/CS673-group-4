@@ -1,0 +1,42 @@
+<div class="users-page">
+  <h2><%= @user.name %></h2>
+  <div>
+  <div class="user-card">
+    <p><span class="label">Username:</span> <%= @user.username %></p>
+    <p><span class="label">Email:</span> <%= @user.email %></p>
+    <p><span class="label">City:</span> <%= @user.city %></p>
+    <p><span class="label">State:</span> <%= @user.state %></p>
+  </div>
+    <p><strong>Description:</strong> <%= @user.description %></p>
+  </div>
+  <button type="button" onclick="window.location='<%= message_path(@user) %>'">Message</button>
+  <button type="button" onclick="window.location='<%= review_path(@user) %>'">Reviews</button>
+
+  <% if @user.role == 1 %>
+    <div class="appointment-card">    
+      <strong>Available appointment time slots</strong>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Start time</th>
+            <th>End time</th>
+            <% if @visitor.role != 1 %>
+              <th>Schedule</th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% @appointments.all.each do |appointment| %>
+          <tr>
+            <td> <%= appointment.start_time %> </td>
+            <td> <%= appointment.end_time %> </td>
+            <% if @visitor.role != 1 %>
+              <td> <%= button_to "Schedule", schedule_appointment_path(appointment), method: :patch %></td>
+            <% end %>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

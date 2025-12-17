@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Workfinder" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Workfinder">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <style>
+      .nav {
+        list-style: none;       /* remove bullets */
+        padding: 0;             /* remove default padding */
+        margin: 0;              /* remove default margin */
+        display: flex;          /* horizontal layout */
+        gap: 20px;              /* space between items */
+      }
+    </style>
+    <%= yield :head %>
+    
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav>
+      <ul class="nav">
+        <% if authenticated? %>
+          <li><%= link_to "Home", root_path, class: "nav-item" %></li>
+          <li><%= link_to "My Appointments", appointments_path, class: "nav-item" %></li>
+          <li><%= link_to "Messages", messages_path, class: "nav-item" %></li>
+          <li><%= button_to "Log out", session_path, method: :delete, class: "logout-button nav-item" %></li>
+        <% else %>
+          <li><%= link_to "Home", root_path, class: "nav-item" %></li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<h1>Messages</h1>
+
+<div id="messages" class="messages-container">
+  <% @users.each do |user| %>
+    <%= link_to message_path(user), style: "text-decoration: none; color: inherit;" do %>
+      <div class= "user-card">
+        <p><span class="label"><strong>Username:</strong> <%= user.username %></p>
+      </div>
+    <% end %>
+  <% end %>
+</div>

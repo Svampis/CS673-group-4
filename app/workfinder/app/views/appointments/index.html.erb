@@ -1,0 +1,110 @@
+<% if @current_user.role == 1 %>
+  <div class="appointments-page">
+  <h1>Your appointments and time slots</h1>
+
+  <h2>Create a new time slot</h2>
+
+  <div class="timeslot-form-wrapper">
+    <%= form_with model: @appointment do |form| %>
+      <%= form.label :start_time, "Start time" %>
+      <%= form.datetime_local_field :start_time %>
+
+      <%= form.label :end_time, "End time" %>
+      <%= form.datetime_local_field :end_time %>
+
+      <%= form.hidden_field :worker_id, value: @current_user.id %>
+
+      <%= form.submit "Submit" %>
+    <% end %>
+  </div>
+</div>
+  <h2>Your open slots</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <td>Start time</td>
+        <td>End time</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @appointment_slots.each do |appointment_slot| %>
+        <tr>
+          <td>
+            <%= appointment_slot.start_time %>
+          </td>
+          <td>
+            <%= appointment_slot.end_time %>
+          </td>
+        </tr>
+      <% end %>
+
+      <tr>
+      </tr>
+    </tbody>
+  </table>
+  <h2> Scheduled appointments</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <td>Start time</td>
+        <td>End time</td>
+        <td>Customer</td>
+        <td>Cancel</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @scheduled_appointments.each do |appointment| %>
+        <tr>
+          <td>
+            <%= appointment.start_time %>
+          </td>
+          <td>
+            <%= appointment.end_time %>
+          </td>
+          <% 
+            customer=@users.find(appointment.customer_id)
+          %>
+          <td>
+            <%= link_to user_path(customer) do %>
+              <%= customer.username %>
+            <% end %>
+          </td>
+          <td> <%= button_to "Cancel", cancel_appointment_path(appointment), method: :patch %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h1> Your appointments</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <td>Start time</td>
+        <td>End time</td>
+        <td>Associate</td>
+        <td>Cancel</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @scheduled_appointments.each do |appointment| %>
+        <tr>
+          <td>
+            <%= appointment.start_time %>
+          </td>
+          <td>
+            <%= appointment.end_time %>
+          </td>
+          <% 
+            worker=@users.find(appointment.worker_id)
+          %>
+          <td>
+            <%= link_to user_path(worker) do %>
+              <%= worker.username %>
+            <% end %>
+          </td>
+          <td> <%= button_to "Cancel", cancel_appointment_path(appointment), method: :patch %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
