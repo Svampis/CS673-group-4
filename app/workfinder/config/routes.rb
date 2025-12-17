@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   get "/appointments/", to: "appointments#index"
   post "/appointments/", to: "appointments#create"
 
+  get "/reviews/:id", to: "reviews#show"
+  post "/reviews", to: "reviews#create"
+
   resources :appointments do
     member do
       patch :schedule
@@ -37,4 +40,5 @@ Rails.application.routes.draw do
   root "users#index"
   resources :users
   resources :messages
+  resources :reviews
 end

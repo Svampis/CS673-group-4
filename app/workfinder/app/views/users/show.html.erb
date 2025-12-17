@@ -10,6 +10,7 @@
     <p><strong>Description:</strong> <%= @user.description %></p>
   </div>
   <button type="button" onclick="window.location='<%= message_path(@user) %>'">Message</button>
+  <button type="button" onclick="window.location='<%= review_path(@user) %>'">Reviews</button>
 
   <% if @user.role == 1 %>
     <div class="appointment-card">    
